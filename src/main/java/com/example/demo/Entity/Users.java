@@ -1,6 +1,5 @@
 package com.example.demo.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,23 +8,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
+@Table(name = "app_user")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class ProjectSkills {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    @JsonIgnore
-    private Project project;
-
-    @ManyToOne
-    @JoinColumn(name = "skills_id")
-    private Skills skills;
-
+    private String name;
+    private String email;
+    private String password;
 }

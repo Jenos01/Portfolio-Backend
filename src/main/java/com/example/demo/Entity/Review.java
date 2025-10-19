@@ -1,6 +1,5 @@
 package com.example.demo.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ProjectSkills {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +20,18 @@ public class ProjectSkills {
 
     @ManyToOne
     @JoinColumn(name = "project_id")
-    @JsonIgnore
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "skills_id")
-    private Skills skills;
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
+
+    @OneToOne
+    @JoinColumn(name = "rate_id")
+    private Rate rate;
 
 }

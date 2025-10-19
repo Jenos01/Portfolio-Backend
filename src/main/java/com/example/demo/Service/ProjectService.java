@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 
 import com.example.demo.Entity.Project;
+import com.example.demo.Entity.ProjectSkills;
 import com.example.demo.Repository.ProjectRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,21 @@ public class ProjectService {
     }
 
     public Project addProject(Project project) {
+        for (ProjectSkills ps : project.getProjectSkills()) {
+            ps.setProject(project);
+        }
+        return projectRepository.save(project);
+    }
+
+    public Project getProjectById(Long projectId) {
+        return projectRepository.findById(projectId).orElse(null);
+    }
+
+    public void deleteProject(Long projectId) {
+        projectRepository.deleteById(projectId);
+    }
+
+    public Project modifyProject(String projectName, Project project) {
         return projectRepository.save(project);
     }
 }

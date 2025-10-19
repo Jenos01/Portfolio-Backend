@@ -1,14 +1,13 @@
 package com.example.demo.Entity;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -19,10 +18,29 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
     private String description;
     private String githubRepoLink;
+    private String imagePath;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    //@JoinColumn(name = "project_id") // creates the foreign key in ProjectSkills
+    private List<ProjectSkills> projectSkills = new ArrayList<>();
+
+
+
+
+
+
+
+//    public void addProjectSkills(Skills skills) {
+//        ProjectSkills associaton = new ProjectSkills();
+//        associaton.setSkills(skills);
+//        associaton.setProject(this);
+//
+//        this.projectSkills.add(associaton);
+//    }
 
 }
