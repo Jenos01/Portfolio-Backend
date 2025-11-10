@@ -26,4 +26,14 @@ public class CerificationController {
     public Certification addCertification(@RequestBody Certification certification) {
         return certificationService.addCertification(certification);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteCertification(@PathVariable Long id) {
+         certificationService.deleteCertification(id);
+    }
+
+    @PutMapping("modify/{title}")
+    public Certification modifyCertification(@PathVariable String title, @RequestBody Certification certification) {
+        return certificationService.modifyCertification(title, certification);
+    }
 }

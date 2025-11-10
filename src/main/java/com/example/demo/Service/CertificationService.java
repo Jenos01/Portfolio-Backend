@@ -21,4 +21,12 @@ public class CertificationService {
     public Certification addCertification(Certification certification) {
         return certificationRepository.save(certification);
     }
+
+    public void deleteCertification(Long id) {
+         certificationRepository.deleteById(id);
+    }
+
+    public Certification modifyCertification(String title, Certification certification) {
+        return certificationRepository.save(certification);
+    }
 }

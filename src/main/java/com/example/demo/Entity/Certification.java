@@ -1,16 +1,15 @@
 package com.example.demo.Entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+//import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
@@ -25,5 +24,6 @@ public class Certification {
 
     private String title;
     private String provider;
-    private Date date;
+    private LocalDate date;
+    private String imagePath;
 }

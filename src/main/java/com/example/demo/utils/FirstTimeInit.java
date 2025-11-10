@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+//import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +21,11 @@ public class FirstTimeInit implements CommandLineRunner {
         createSkills();
         createProjects();
         createUsers();
+        createCertifications();
+        createRates();
+        createComments();
+        createReviews();
+
     }
 
     private final SkillsRepository skillsRepository;
@@ -27,6 +33,8 @@ public class FirstTimeInit implements CommandLineRunner {
     private final UserRepository userRepository;
     private final CertificationRepository certificationRepository;
     private final ReviewRepository reviewRepository;
+    private final RateRepository rateRepository;
+    private final CommentRepository commentRepository;
 
     private Skills skill1,skill2,skill3,skill4,skill5,skill6;
     private Project project1,project2,project3,project4,project5,project6;
@@ -38,12 +46,12 @@ public class FirstTimeInit implements CommandLineRunner {
 
     private void createSkills() {
         if (skillsRepository.count() == 0) {
-            skill1 = skillsRepository.save(new Skills(null, "Angular", "https://img.icons8.com/?size=100&id=71257&format=png&color=000000"));
-            skill2 = skillsRepository.save(new Skills(null, "Python", "https://img.icons8.com/?size=100&id=13441&format=png&color=000000"));
-            skill3 = skillsRepository.save(new Skills(null, "C", "http://portfolio.test/projects/c_original_logo_icon_146611.svg"));
-            skill4 = skillsRepository.save(new Skills(null, "Power BI", "https://img.icons8.com/?size=100&id=3sGOUDo9nJ4k&format=png&color=000000"));
-            skill5 = skillsRepository.save(new Skills(null, "SpringBoot", "https://img.icons8.com/?size=100&id=90519&format=png&color=000000"));
-            skill6 = skillsRepository.save(new Skills(null, "SQL", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg"));
+            skill1 = skillsRepository.save(new Skills(null, "Angular", "https://img.icons8.com/?size=100&id=71257&format=png&color=000000",new ArrayList<>()));
+            skill2 = skillsRepository.save(new Skills(null, "Python", "https://img.icons8.com/?size=100&id=13441&format=png&color=000000",new ArrayList<>()));
+            skill3 = skillsRepository.save(new Skills(null, "C", "http://portfolio.test/projects/c_original_logo_icon_146611.svg",new ArrayList<>()));
+            skill4 = skillsRepository.save(new Skills(null, "Power BI", "https://img.icons8.com/?size=100&id=3sGOUDo9nJ4k&format=png&color=000000",new ArrayList<>()));
+            skill5 = skillsRepository.save(new Skills(null, "SpringBoot", "https://img.icons8.com/?size=100&id=90519&format=png&color=000000",new ArrayList<>()));
+            skill6 = skillsRepository.save(new Skills(null, "SQL", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg",new ArrayList<>()));
         }
     }
 
@@ -90,16 +98,72 @@ public class FirstTimeInit implements CommandLineRunner {
         private void createUsers() {
             if(userRepository.count() == 0) {
                 user1 = userRepository.save(new Users(null, "BouAli", "aminboualiaminbouali@gmail.com", "psd2001"));
-                user1 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", "psd3001"));
+                user2 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", "psd3001"));
             }
         }
 
 
         private void createCertifications() {
             if (certificationRepository.count() == 0) {
-                certificationRepository.save(new Certification(null,"Power BI Fundamentals","Datacamp",new Date(2023,7,4)));
-                certificationRepository.save(new Certification(null,"Data Scientist with Python","Datacamp",new Date(2022,5,4)));
+                certificationRepository.save(new Certification(null,"Power BI Fundamentals","Datacamp", LocalDate.of(2023,7,4),"http://portfolio.test/Certifications/Power%20BI%20Fundamentals.png"));
+                certificationRepository.save(new Certification(null,"Data Scientist with Python","Datacamp", LocalDate.of(2022,5,8),"http://portfolio.test/Certifications/Data%20Scientist%20With%20Python.png"));
+                certificationRepository.save(new Certification(null,"EF SET C1 Advanced English Level","EF SET", LocalDate.of(2023,2,22),"http://portfolio.test/Certifications/EF%20SET%20C1.png"));
+                certificationRepository.save(new Certification(null,"Hult Prize Regional Finalist","Hult Prize", LocalDate.of(2021,4,27),"http://portfolio.test/Certifications/hult%20prize.png"));
             }
         }
+
+
+
+    private Rate rate1, rate2, rate3, rate4, rate5;
+
+    private void createRates() {
+        if (rateRepository.count() == 0) {
+            rate1 = rateRepository.save(new Rate(null, 5)); // 5 stars
+            rate2 = rateRepository.save(new Rate(null, 4));
+            rate3 = rateRepository.save(new Rate(null, 3));
+            rate4 = rateRepository.save(new Rate(null, 3));
+            rate5 = rateRepository.save(new Rate(null, 2));
+
+        }
+    }
+
+    private void createReviews() {
+        if (reviewRepository.count() == 0) {
+            Review review1 = new Review(null, project1, null, user1, rate1);
+            Review review2 = new Review(null, project1, null, user2, rate2);
+            Review review3 = new Review(null, project2, null, user2, rate3);
+            Review review4 = new Review(null, project2, null, user2, rate4);
+            Review review5 = new Review(null, project3, null, user2, rate5);
+            Review review6 = new Review(null, project1, comment1, user1, null);
+            Review review7 = new Review(null, project1, comment2, user2, null);
+            Review review8 = new Review(null, project2, comment3, user3, null);
+
+            reviewRepository.saveAll(List.of(review1, review2,review3,review4,review5,review6,review7,review8));
+        }
+    }
+
+    private Comment comment1, comment2, comment3, comment4, comment5;
+
+//    public void createComments() {
+//         comment1 = new Comment(null, "Nice Project, Keep up the nice work");
+//         comment2 = new Comment(null, "Great Project!");
+//         comment3 = new Comment(null, "Great Project!, Keep Growing");
+//
+//         commentRepository.saveAll(List.of(comment1, comment2, comment3));
+//
+//  }
+private void createComments() {
+    if (commentRepository.count() == 0) {
+        Comment comment1 = commentRepository.save(new Comment(null, "Great project!"));
+        Comment comment2 = commentRepository.save(new Comment(null, "Needs improvement."));
+        Comment comment3 = commentRepository.save(new Comment(null, "Excellent work!"));
+
+
+        //List<Comment> comments = List.of(comment1, comment2, comment3);
+    }
+}
+
+
+
 
 }

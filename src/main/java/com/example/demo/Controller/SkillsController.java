@@ -20,8 +20,23 @@ public class SkillsController {
         return skillsService.getAllSkills();
     }
 
+    @GetMapping("/{skillId}")
+    public Skills getSkillById(@PathVariable Long skillId) {
+        return skillsService.getSkillById(skillId);
+    }
+
     @PostMapping
     public Skills addSkills(@RequestBody Skills skills) {
         return skillsService.addSkills(skills);
+    }
+
+    @PutMapping("modify/{skillId}")
+    public Skills updateSkill(@PathVariable Long skillId , @RequestBody Skills skill) {
+        return skillsService.updateSkills(skillId,skill);
+    }
+
+    @DeleteMapping("/{skillId}")
+    public void deleteSkill(@PathVariable Long skillId) {
+        skillsService.deleteSkill(skillId);
     }
 }

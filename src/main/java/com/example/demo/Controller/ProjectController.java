@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("project")
 @RequiredArgsConstructor
-public class ProjectController {
+public class  ProjectController {
 
     private final ProjectService projectService;
 

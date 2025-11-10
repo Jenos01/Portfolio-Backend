@@ -36,6 +36,23 @@ public class ProjectService {
     }
 
     public Project modifyProject(String projectName, Project project) {
+        //project.getProjectSkills().clear();
+        for (ProjectSkills ps : project.getProjectSkills()) {
+            ps.setProject(project);
+        }
+
         return projectRepository.save(project);
+
+//        Project existedProject = projectRepository.findById(updatedProject.getId()).orElse(null);
+//        if (existedProject != null) {
+//            updatedProject.getProjectSkills().clear();
+//            //project.getProjectSkills().addAll(existedProject.getProjectSkills());
+//            for (ProjectSkills ps : updatedProject.getProjectSkills()) {
+//                ps.setProject(existedProject);
+//            }
+//
+//        }
+//
+//        return projectRepository.save(updatedProject);
     }
 }
