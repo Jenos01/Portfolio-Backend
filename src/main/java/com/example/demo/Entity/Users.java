@@ -1,6 +1,7 @@
 package com.example.demo.Entity;
 
 
+import com.example.demo.Enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +23,5 @@ public class Users {
     private String name;
     private String email;
     private String password;
+    private Role role;
 }
