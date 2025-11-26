@@ -21,7 +21,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping // ("/sign up")  (create user)
     public Users addUser(@RequestBody Users user) {
         return userService.addUser(user);
     }
@@ -40,5 +40,17 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Identifiants invalides");
         }
+    }
+
+
+    /// Telusko
+    @PostMapping("register")
+    public Users register(@RequestBody Users user) {
+    return userService.register(user);
+    }
+
+    @PostMapping("/signin") //equivalent l login fl video
+    public String signin(@RequestBody Users user) {
+        return userService.verify(user);
     }
 }

@@ -4,6 +4,7 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.Skills;
 import com.example.demo.Service.SkillsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public class SkillsController {
 
     private final SkillsService skillsService;
 
+ //   @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping
     public List<Skills> getAllSkills() {
         return skillsService.getAllSkills();
@@ -25,6 +28,7 @@ public class SkillsController {
         return skillsService.getSkillById(skillId);
     }
 
+  //  @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Skills addSkills(@RequestBody Skills skills) {
         return skillsService.addSkills(skills);

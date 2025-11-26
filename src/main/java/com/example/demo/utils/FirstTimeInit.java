@@ -97,8 +97,8 @@ public class FirstTimeInit implements CommandLineRunner {
 
         private void createUsers() {
             if(userRepository.count() == 0) {
-                user1 = userRepository.save(new Users(null, "BouAli", "aminboualiaminbouali@gmail.com", "psd2001",Role.ROLE_VISITOR));
-                user2 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", "psd3001", Role.ROLE_USER));
+                user1 = userRepository.save(new Users(null, "BouAli", "aminboualiaminbouali@gmail.com", "psd2001",Role.ROLE_VISITOR, true));
+                user2 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", "psd3001", Role.ROLE_USER, true));
             }
         }
 
