@@ -19,10 +19,12 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique = true, nullable = false)
     private String name;
+    @Column(nullable = false)
     private String description;
     private String githubRepoLink;
+    @Column(nullable = false)
     private String imagePath;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)

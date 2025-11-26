@@ -22,9 +22,12 @@ public class Certification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
+    @Column(unique = true, nullable = false)
     private String title;
+    @Column(nullable = false)
     private String provider;
+    @Column(nullable = false)
     private LocalDate date;
+    @Column(nullable = false)
     private String imagePath;
 }
