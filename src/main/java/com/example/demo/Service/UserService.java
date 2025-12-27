@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserDetailsService userDetailsService; //*
+
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -44,12 +48,33 @@ public class UserService {
         return userRepository.save(user);
     }
 
+//    public String verify(Users user) {
+//        Authentication authentication =
+//                authnManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+//        if (authentication.isAuthenticated()) {
+//           // return jwtService.generateToken(user.getUsername());
+//            return jwtService.generateToken(userDetails);
+//        }
+//        return "Fail";
+//    }
+
+    //*
     public String verify(Users user) {
+
         Authentication authentication =
-                authnManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                authnManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                user.getUsername(), user.getPassword()
+                        )
+                );
+
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getUsername());
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(user.getUsername());
+
+            return jwtService.generateToken(userDetails);
         }
+
         return "Fail";
     }
 }

@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
@@ -13,33 +15,44 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
 public class JWTService {
 
-    private String secretKey = "";
+    @Value("${jwt.secret}")
+    private String secretKey;
+
+    //private String secretKey = "";
+
+    @Value("${jwt.expiration}")
+    private long jwtExpiration;
 
     public JWTService() throws NoSuchAlgorithmException {
-        KeyGenerator keyGen= KeyGenerator.getInstance("HmacSHA256");
-        SecretKey sk = keyGen.generateKey();
-        secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
+        //improvments(trying) ///why ? 5tr aala 9oddem fi kol marra tsir restart lel app mathaln bech yetgenera secret key jdid donc l existing tokens bch ywalliw invalid ( i think)
+//        KeyGenerator keyGen= KeyGenerator.getInstance("HmacSHA256");
+//        SecretKey sk = keyGen.generateKey();
+//        secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
     }
 
-    public String generateToken(String username) {
+    //public String generateToken(String username) {
+    public String generateToken(UserDetails userDetails) { //*
 
         Map<String, Object> claims = new HashMap<>();
+        //*
+        claims.put("role", userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList());
 
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+               // .subject(username)
+                .subject(userDetails.getUsername()) //*
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+ 60 * 60 * 30))
+                .expiration(new Date(System.currentTimeMillis() + jwtExpiration)) //*
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -81,5 +94,11 @@ public class JWTService {
         return extractClaims(token, Claims::getExpiration);
     }
 
+    //*
+    public List<String> extractRoles(String token) {
+        return extractClaims(token, claims ->
+                claims.get("role", List.class)
+        );
+    }
 
 }

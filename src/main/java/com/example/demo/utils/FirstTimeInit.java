@@ -139,9 +139,9 @@ public class FirstTimeInit implements CommandLineRunner {
 
         private void createCertifications() {
             if (certificationRepository.count() == 0) {
-                certificationRepository.save(new Certification(null,"Power BI Fundamentals","Datacamp", LocalDate.of(2023,7,4),"http://portfolio.test/Certifications/Power%20BI%20Fundamentals.png"));
-                certificationRepository.save(new Certification(null,"Data Scientist with Python","Datacamp", LocalDate.of(2022,5,8),"http://portfolio.test/Certifications/Data%20Scientist%20With%20Python.png"));
-                certificationRepository.save(new Certification(null,"EF SET C1 Advanced English Level","EF SET", LocalDate.of(2023,2,22),"http://portfolio.test/Certifications/EF%20SET%20C1.png"));
+                certificationRepository.save(new Certification(null,"Power BI Fundamentals","Datacamp", LocalDate.of(2023,7,4),"http://portfolio.test/Certifications/power%20bi%20.png"));
+                certificationRepository.save(new Certification(null,"Data Scientist with Python","Datacamp", LocalDate.of(2022,5,8),"http://portfolio.test/Certifications/data%20scientist%20with%20python.png"));
+                certificationRepository.save(new Certification(null,"EF SET C1 Advanced English Level","EF SET", LocalDate.of(2023,2,22),"http://portfolio.test/Certifications/english%20C1%20advanced.png"));
                 certificationRepository.save(new Certification(null,"Hult Prize Regional Finalist","Hult Prize", LocalDate.of(2021,4,27),"http://portfolio.test/Certifications/hult%20prize.png"));
             }
         }
@@ -161,6 +161,30 @@ public class FirstTimeInit implements CommandLineRunner {
         }
     }
 
+
+
+    private Comment comment1, comment2, comment3, comment4, comment5;
+
+//    public void createComments() {
+//         comment1 = new Comment(null, "Nice Project, Keep up the nice work");
+//         comment2 = new Comment(null, "Great Project!");
+//         comment3 = new Comment(null, "Great Project!, Keep Growing");
+//
+//         commentRepository.saveAll(List.of(comment1, comment2, comment3));
+//
+//  }
+private void createComments() {
+    if (commentRepository.count() == 0) {
+        comment1 = commentRepository.save(new Comment(null, "Great project!"));
+        comment2 = commentRepository.save(new Comment(null, "Needs improvement."));
+        comment3 = commentRepository.save(new Comment(null, "Excellent work!"));
+
+
+        //List<Comment> comments = List.of(comment1, comment2, comment3);
+    }
+}
+
+
     private void createReviews() {
         if (reviewRepository.count() == 0) {
             Review review1 = new Review(null, project1, null, user1, rate1);
@@ -175,29 +199,6 @@ public class FirstTimeInit implements CommandLineRunner {
             reviewRepository.saveAll(List.of(review1, review2,review3,review4,review5,review6,review7,review8));
         }
     }
-
-    private Comment comment1, comment2, comment3, comment4, comment5;
-
-//    public void createComments() {
-//         comment1 = new Comment(null, "Nice Project, Keep up the nice work");
-//         comment2 = new Comment(null, "Great Project!");
-//         comment3 = new Comment(null, "Great Project!, Keep Growing");
-//
-//         commentRepository.saveAll(List.of(comment1, comment2, comment3));
-//
-//  }
-private void createComments() {
-    if (commentRepository.count() == 0) {
-        Comment comment1 = commentRepository.save(new Comment(null, "Great project!"));
-        Comment comment2 = commentRepository.save(new Comment(null, "Needs improvement."));
-        Comment comment3 = commentRepository.save(new Comment(null, "Excellent work!"));
-
-
-        //List<Comment> comments = List.of(comment1, comment2, comment3);
-    }
-}
-
-
 
 
 }

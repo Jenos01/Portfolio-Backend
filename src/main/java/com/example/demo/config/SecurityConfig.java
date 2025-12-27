@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +25,12 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -58,7 +63,11 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> {})   // enable CORS, use config in WebMvcConfigurer
+                // //* .cors(cors -> {})   // enable CORS, use config in WebMvcConfigurer
+                .cors(Customizer.withDefaults())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/project",
@@ -68,10 +77,9 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
                                 "/users/register",
 //                                "/signin"
                                 "/users/signin"
-                        ).permitAll()  // allow GET from  Angular
+                        ).permitAll()  // allow GET from  Angular and sign in and register
                         .anyRequest().authenticated())
-                        .httpBasic(Customizer.withDefaults())
-                //statless !
+                       // .httpBasic(Customizer.withDefaults())
                         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
        // .build();
         ;
@@ -79,6 +87,21 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
 
         return http.build();
     }
+
+    //*
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
 
     ///EmbarkX
 //    @Bean

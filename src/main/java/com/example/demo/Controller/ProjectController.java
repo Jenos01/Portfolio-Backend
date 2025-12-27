@@ -6,12 +6,13 @@ import com.example.demo.Service.ProjectService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
 @RequestMapping("project")
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class  ProjectController {
         return projectService.getAllProjects();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Project addProject(@RequestBody Project project) {
         return projectService.addProject(project);
@@ -34,11 +36,13 @@ public class  ProjectController {
         return projectService.getProjectById(projectId);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{projectId}")
     public void deleteProject(@PathVariable Long projectId) {
          projectService.deleteProject(projectId);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("modify/{projectName}")
     public Project modifyProject(@PathVariable String projectName, @RequestBody Project project) {
         return projectService.modifyProject(projectName,project);
