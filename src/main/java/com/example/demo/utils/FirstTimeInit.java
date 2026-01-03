@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 //import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -25,14 +25,14 @@ public class FirstTimeInit implements CommandLineRunner {
         createCertifications();
         createRates();
         createComments();
-        createReviews();
+       //    createReviews();
     }
 
     private final SkillsRepository skillsRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final CertificationRepository certificationRepository;
-    private final ReviewRepository reviewRepository;
+
     private final RateRepository rateRepository;
     private final CommentRepository commentRepository;
 
@@ -131,8 +131,13 @@ public class FirstTimeInit implements CommandLineRunner {
 
         private void createUsers() {
             if(userRepository.count() == 0) {
-                user1 = userRepository.save(new Users(null, "BouAli", "aminboualiaminbouali@gmail.com", "psd2001",Role.ROLE_VISITOR, true));
-                user2 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", "psd3001", Role.ROLE_USER, true));
+
+                user1 = userRepository.save(new Users(null, "BouAli", "aminboualiaminbouali@gmail.com", "psd2001",Role.ROLE_ADMIN, true,LocalDate.now(),LocalDate.now()));
+                user2 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", "psd3001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+                user3 = userRepository.save(new Users(null, "Ahmed", "ahmed01@gmail.com", "psd4001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+                user3 = userRepository.save(new Users(null, "Rami", "rami@gmail.com", "psd5001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+                user3 = userRepository.save(new Users(null, "majd", "majd200@gmail.com", "psd6001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+                /// To Do Later : Bel nesba lel visitor lezem nrodHa maynjmch y'rat'i melli nsavih bl bl FirstInitTime (n'test'i beha) mabda2iyan
             }
         }
 
@@ -152,11 +157,11 @@ public class FirstTimeInit implements CommandLineRunner {
 
     private void createRates() {
         if (rateRepository.count() == 0) {
-            rate1 = rateRepository.save(new Rate(null, 5)); // 5 stars
-            rate2 = rateRepository.save(new Rate(null, 4));
-            rate3 = rateRepository.save(new Rate(null, 3));
-            rate4 = rateRepository.save(new Rate(null, 3));
-            rate5 = rateRepository.save(new Rate(null, 2));
+            rate1 = rateRepository.save(new Rate(null, 5, user1, project1)); // 5 stars
+            rate2 = rateRepository.save(new Rate(null, 4, user1, project2));
+            rate3 = rateRepository.save(new Rate(null, 3, user2, project2));
+            rate4 = rateRepository.save(new Rate(null, 3, user2, project3));
+            rate5 = rateRepository.save(new Rate(null, 2, user2, project4));
 
         }
     }
@@ -175,9 +180,10 @@ public class FirstTimeInit implements CommandLineRunner {
 //  }
 private void createComments() {
     if (commentRepository.count() == 0) {
-        comment1 = commentRepository.save(new Comment(null, "Great project!"));
-        comment2 = commentRepository.save(new Comment(null, "Needs improvement."));
-        comment3 = commentRepository.save(new Comment(null, "Excellent work!"));
+
+        comment1 = commentRepository.save(new Comment(null, "Great project!" , LocalDateTime.now(),LocalDateTime.now(), user2, project1));
+        comment2 = commentRepository.save(new Comment(null, "Needs improvement." ,LocalDateTime.now(),LocalDateTime.now() ,user2, project1));
+        comment3 = commentRepository.save(new Comment(null, "Excellent work!",LocalDateTime.now(),LocalDateTime.now() ,user1, project1));
 
 
         //List<Comment> comments = List.of(comment1, comment2, comment3);
@@ -185,20 +191,20 @@ private void createComments() {
 }
 
 
-    private void createReviews() {
-        if (reviewRepository.count() == 0) {
-            Review review1 = new Review(null, project1, null, user1, rate1);
-            Review review2 = new Review(null, project1, null, user2, rate2);
-            Review review3 = new Review(null, project2, null, user2, rate3);
-            Review review4 = new Review(null, project2, null, user2, rate4);
-            Review review5 = new Review(null, project3, null, user2, rate5);
-            Review review6 = new Review(null, project1, comment1, user1, null);
-            Review review7 = new Review(null, project1, comment2, user2, null);
-            Review review8 = new Review(null, project2, comment3, user3, null);
-
-            reviewRepository.saveAll(List.of(review1, review2,review3,review4,review5,review6,review7,review8));
-        }
-    }
+//    private void createReviews() {
+//        if (reviewRepository.count() == 0) {
+//            Review review1 = new Review(null, project1, null, user1, rate1);
+//            Review review2 = new Review(null, project1, null, user2, rate2);
+//            Review review3 = new Review(null, project2, null, user2, rate3);
+//            Review review4 = new Review(null, project2, null, user2, rate4);
+//            Review review5 = new Review(null, project3, null, user2, rate5);
+//            Review review6 = new Review(null, project1, comment1, user1, null);
+//            Review review7 = new Review(null, project1, comment2, user2, null);
+//            Review review8 = new Review(null, project2, comment3, user3, null);
+//
+//            reviewRepository.saveAll(List.of(review1, review2,review3,review4,review5,review6,review7,review8));
+//        }
+//    }
 
 
 }

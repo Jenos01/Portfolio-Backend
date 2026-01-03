@@ -22,4 +22,13 @@ public class Rate {
     @Max(value = 5)
     private Integer ratePoints;
 
+
+///*************************
+    @ManyToOne
+    private Users user;
+
+    @ManyToOne
+    private Project project;
+
+    //UNIQUE (user_id, project_id)
 }
