@@ -41,7 +41,7 @@ The backend is designed as a RESTful API consumed by separate frontend applicati
 
 The database schema defines the core entities and relationships used by the application.
 
- <img alt="Database Diagram" src="./screenshots/protfolio backend diagram.png"/>
+ <img alt="Database Diagram" src="./screenshots/DatabaseDiagram.png"/>
   
 
 ---
