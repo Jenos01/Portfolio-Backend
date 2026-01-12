@@ -5,6 +5,8 @@ import com.example.demo.Enums.Role;
 import com.example.demo.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 //import java.sql.Date;
@@ -40,7 +42,7 @@ public class FirstTimeInit implements CommandLineRunner {
     private Project project1,project2,project3,project4,project5,project6;
     private Users user1,user2,user3,user4,user5,user6;
 
-
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 
 
@@ -132,11 +134,12 @@ public class FirstTimeInit implements CommandLineRunner {
         private void createUsers() {
             if(userRepository.count() == 0) {
 
-                user1 = userRepository.save(new Users(null, "BouAli", "aminboualiaminbouali@gmail.com", "psd2001",Role.ROLE_ADMIN, true,LocalDate.now(),LocalDate.now()));
-                user2 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", "psd3001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
-                user3 = userRepository.save(new Users(null, "Ahmed", "ahmed01@gmail.com", "psd4001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
-                user3 = userRepository.save(new Users(null, "Rami", "rami@gmail.com", "psd5001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
-                user3 = userRepository.save(new Users(null, "majd", "majd200@gmail.com", "psd6001", Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+                user1 = userRepository.save(new Users(null, "BouAli", "aminboualiaminbouali@gmail.com", encoder.encode("psd2001"),Role.ROLE_ADMIN, true,LocalDate.now(),LocalDate.now()));
+                user2 = userRepository.save(new Users(null, "Med Amin", "jenosmoji@gmail.com", encoder.encode("psd3001"), Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+                user3 = userRepository.save(new Users(null, "Ahmed", "ahmed01@gmail.com", encoder.encode("psd4001"), Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+                user4 = userRepository.save(new Users(null, "Rami", "rami@gmail.com", encoder.encode("psd5001"), Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
+               // System.out.println("user4 created: " + user4.getUsername() + " - ID: " + user4.getId() +"password : " + user4.getPassword());
+                user5 = userRepository.save(new Users(null, "majd", "majd200@gmail.com", encoder.encode("psd6001"), Role.ROLE_USER, true,LocalDate.now(),LocalDate.now()));
                 /// To Do Later : Bel nesba lel visitor lezem nrodHa maynjmch y'rat'i melli nsavih bl bl FirstInitTime (n'test'i beha) mabda2iyan
             }
         }

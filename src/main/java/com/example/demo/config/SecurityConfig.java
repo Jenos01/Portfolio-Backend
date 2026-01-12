@@ -56,7 +56,6 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
     private final JwtFilter jwtFilter;
 
 
-
     /// combined
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -73,17 +72,14 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
                                 "/project",
                                 "/skills",
                                 "/certification",
-//                                "/login",
                                 "/users/register",
-//                                "/signin"
-                                "/users/signin"
-                        ).permitAll()  // allow GET from  Angular and sign in and register
+                                "/users/login"
+                        ).permitAll()  // allow GET from  Angular and login and register
                         .anyRequest().authenticated())
                        // .httpBasic(Customizer.withDefaults())
                         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
        // .build();
         ;
-            
 
         return http.build();
     }
@@ -124,7 +120,7 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
 //        return new BCryptPasswordEncoder();
 //    }
 
-    /// Telusko
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

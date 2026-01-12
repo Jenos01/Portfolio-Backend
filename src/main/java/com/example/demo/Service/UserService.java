@@ -3,6 +3,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.Users;
 import com.example.demo.Repository.UserRepository;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,10 +30,11 @@ public class UserService {
 
     private final JWTService jwtService;
 
-    public Users addUser(Users user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
+//    public Users addUser(Users user) {
+//        /// check existance first
+//        user.setPassword(encoder.encode(user.getPassword()));
+//        return userRepository.save(user);
+//    }
 
     public List<Users> getAllUsers() {
         return userRepository.findAll();
@@ -41,11 +44,21 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public Users findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+
 
     /// Telusko
-    public Users register(Users user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public Users register(Users user) { /// after registring the role of the user should be  USER
+
+        Users existing = userRepository.findByEmail(user.getEmail());
+        if (existing == null) {
+            user.setPassword(encoder.encode(user.getPassword()));
+            return userRepository.save(user);
+        } else {
+            throw new RuntimeException("User with this email already exists");
+        }
     }
 
 //    public String verify(Users user) {
@@ -68,13 +81,20 @@ public class UserService {
                         )
                 );
 
-        if (authentication.isAuthenticated()) {
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(user.getUsername());
 
-            return jwtService.generateToken(userDetails);
-        }
+        /// this one is  commeneted and changed to the one below bcz If authentication fails, authnManager.authenticate() will throw an exception automatically so i dont need to handle it here and i made some changes about that in the controller (try catch block) and in the LoginResponse
+//        if (authentication.isAuthenticated()) {
+//            UserDetails userDetails =
+//                    userDetailsService.loadUserByUsername(user.getUsername());
+//
+//            return jwtService.generateToken(userDetails);
+//        }
+//
+//        return "Fail"; ///need to be handled
+//    }
+        UserDetails userDetails =
+                userDetailsService.loadUserByUsername(user.getUsername());
 
-        return "Fail";
+        return jwtService.generateToken(userDetails);
     }
 }

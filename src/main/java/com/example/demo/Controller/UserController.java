@@ -3,7 +3,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.Users;
 import com.example.demo.Service.UserService;
-import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.LoginResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -22,10 +22,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping // ("/sign up")  (create user)
-    public Users addUser(@RequestBody Users user) {
-        return userService.addUser(user);
-    }
+//    @PostMapping // ("/sign up")  (create user)
+//    public Users addUser(@RequestBody Users user) {
+//        return userService.addUser(user);
+//    }
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -34,26 +34,48 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Users user = userService.findByEmail(request.getEmail());
+///*********************************************
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+//    //public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+//        //Users user = userService.findByEmail(request.getEmail());
+//        Users user = userService.findByUsername(request.getUsername());
+//
+//        if (user != null && user.getPassword().equals(request.getPassword())) {
+//            return ResponseEntity.ok(user);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Identifiants invalides");
+//        }
+//    }
 
-        if (user != null && user.getPassword().equals(request.getPassword())) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Identifiants invalides");
-        }
+@PostMapping("/login") //signin
+public ResponseEntity<LoginResponse> login(@RequestBody Users user) {
+    try{
+         LoginResponse response = new LoginResponse();
+         //userService.verify(user);
+        String token = userService.verify(user);
+        response.setToken(token);
+        //return new ResponseEntity<>(response, HttpStatus.OK);
+        //shortand it
+        return ResponseEntity.ok(response);
+
+    } catch (Exception e) {
+        LoginResponse response = new LoginResponse();
+        response.setMessage("Invalid username or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
+}
 
+///****************************************
 
-    /// Telusko
     @PostMapping("register")
     public Users register(@RequestBody Users user) {
     return userService.register(user);
     }
 
-    @PostMapping("/signin") //equivalent l login fl video
-    public String signin(@RequestBody Users user) {
-        return userService.verify(user);
-    }
+//    @PreAuthorize("hasRole('USER')")
+//    @PostMapping("/signin")  //login
+//    public String signin(@RequestBody Users user) {
+//        return userService.verify(user);
+//    }
 }
