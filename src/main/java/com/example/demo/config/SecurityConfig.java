@@ -73,7 +73,9 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
                                 "/skills",
                                 "/certification",
                                 "/users/register",
-                                "/users/login"
+                                "/users/login",
+                                "/project/**"
+                               // "/project/slug/**"
                         ).permitAll()  // allow GET from  Angular and login and register
                         .anyRequest().authenticated())
                        // .httpBasic(Customizer.withDefaults())

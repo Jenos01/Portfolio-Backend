@@ -40,4 +40,9 @@ public class CerificationController {
     public Certification modifyCertification(@PathVariable String title, @RequestBody Certification certification) {
         return certificationService.modifyCertification(title, certification);
     }
+
+    @GetMapping("/{slug}")
+    public Certification getCertificationBySlug(String slug){
+        return certificationService.getCertificationBySlug(slug);
+    }
 }

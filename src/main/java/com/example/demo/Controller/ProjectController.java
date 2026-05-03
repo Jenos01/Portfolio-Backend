@@ -31,10 +31,10 @@ public class  ProjectController {
         return projectService.addProject(project);
     }
 
-    @GetMapping("/{projectId}")
-    public Project getProjectById(@PathVariable Long projectId) {
-        return projectService.getProjectById(projectId);
-    }
+//    @GetMapping("/{projectId}")
+//    public Project getProjectById(@PathVariable Long projectId) {
+//        return projectService.getProjectById(projectId);
+//    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{projectId}")
@@ -46,6 +46,11 @@ public class  ProjectController {
     @PutMapping("modify/{projectName}")
     public Project modifyProject(@PathVariable String projectName, @RequestBody Project project) {
         return projectService.modifyProject(projectName,project);
+    }
+
+    @GetMapping("/{slug}")
+    public Project getProjectBySlug(@PathVariable String slug){
+        return projectService.getProjectBySlug(slug);
     }
 }
 

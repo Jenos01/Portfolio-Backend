@@ -55,4 +55,9 @@ public class ProjectService {
 //
 //        return projectRepository.save(updatedProject);
     }
+
+    public Project getProjectBySlug(String slug){
+        return projectRepository.findProjectBySlug(slug);
+
+    }
 }

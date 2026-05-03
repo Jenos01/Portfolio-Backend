@@ -29,4 +29,8 @@ public class CertificationService {
     public Certification modifyCertification(String title, Certification certification) {
         return certificationRepository.save(certification);
     }
+
+    public Certification getCertificationBySlug(String slug) {
+        return certificationRepository.findCertificationBySlug(slug);
+    }
 }
