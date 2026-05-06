@@ -42,7 +42,7 @@ public class CerificationController {
     }
 
     @GetMapping("/{slug}")
-    public Certification getCertificationBySlug(String slug){
+    public Certification getCertificationBySlug(@PathVariable  String slug){
         return certificationService.getCertificationBySlug(slug);
     }
 }

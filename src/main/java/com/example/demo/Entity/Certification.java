@@ -31,6 +31,8 @@ public class Certification {
     private LocalDate date;
     @Column(nullable = false)
     private String imagePath;
+    @Column(nullable = false)
+    private String description;
 
     private String slug;
 
@@ -41,11 +43,12 @@ public class Certification {
     }
 
     public Certification(Long id, String title, String provider,
-                         LocalDate date, String imagePath) {
+                         LocalDate date, String imagePath, String description) {
         this.id = id;
         this.title = title;
         this.provider = provider;
         this.date = date;
         this.imagePath = imagePath;
+        this.description = description;
     }
 }

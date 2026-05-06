@@ -108,7 +108,7 @@ public class FirstTimeInit implements CommandLineRunner {
                 projectRepository.save(project2);
 
                 ///
-                project3 = new Project(null, "Kitchen And Bedroom Virtual Tour", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis eos ipsa assumenda", "github.com/VRPfeProject","http://portfolio.test/projects/dash.jpg", new ArrayList<>(List.of(projectSkill13,projectSkill53,projectSkill73,projectSkill8,projectSkill9)));
+                project3 = new Project(null, "Kitchen And Bedroom Virtual Tour", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis eos ipsa assumenda", "https://github.com/Jenos01/Kitchen-and-Bedroom-Virtual-Tour","http://portfolio.test/projects/dash.jpg", new ArrayList<>(List.of(projectSkill13,projectSkill53,projectSkill73,projectSkill8,projectSkill9)));
                 projectSkill13.setProject(project3);
                 projectSkill53.setProject(project3);
                 projectSkill73.setProject(project3);
@@ -117,13 +117,13 @@ public class FirstTimeInit implements CommandLineRunner {
                 projectRepository.save(project3);
 
                 ///
-                project4 = new Project(null, "Heart Disease Prediction", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis eos ipsa assumenda", "github.com/heardiseaseprediction","http://portfolio.test/projects/dash.jpg", new ArrayList<>(List.of(projectSkill2,projectSkill44)));
+                project4 = new Project(null, "Heart Disease Prediction", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis eos ipsa assumenda", "https://github.com/Jenos01/Heart-Disease-Predictor","http://portfolio.test/projects/dash.jpg", new ArrayList<>(List.of(projectSkill2,projectSkill44)));
                 projectSkill2.setProject(project4);
                 projectSkill44.setProject(project4);
                 projectRepository.save(project4);
 
                 ///
-                project5 = new Project(null, "HR Dashboard", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis eos ipsa assumenda", "github.com/hrdashboard","http://portfolio.test/projects/dash.jpg", new ArrayList<>(List.of(projectSkill45)));
+                project5 = new Project(null, "HR Dashboard", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis eos ipsa assumenda", "https://github.com/Jenos01/HR-Dashboard","http://portfolio.test/projects/dash.jpg", new ArrayList<>(List.of(projectSkill45)));
                 projectSkill45.setProject(project5);
                 projectRepository.save(project5);
 
@@ -147,10 +147,11 @@ public class FirstTimeInit implements CommandLineRunner {
 
         private void createCertifications() {
             if (certificationRepository.count() == 0) {
-                certificationRepository.save(new Certification(null,"Power BI Fundamentals","Datacamp", LocalDate.of(2023,7,4),"http://portfolio.test/Certifications/power%20bi%20.png"));
-                certificationRepository.save(new Certification(null,"Data Scientist with Python","Datacamp", LocalDate.of(2022,5,8),"http://portfolio.test/Certifications/data%20scientist%20with%20python.png"));
-                certificationRepository.save(new Certification(null,"EF SET C1 Advanced English Level","EF SET", LocalDate.of(2023,2,22),"http://portfolio.test/Certifications/english%20C1%20advanced.png"));
-                certificationRepository.save(new Certification(null,"Hult Prize Regional Finalist","Hult Prize", LocalDate.of(2021,4,27),"http://portfolio.test/Certifications/hult%20prize.png"));
+                certificationRepository.save(new Certification(null,"Power BI Fundamentals","Datacamp", LocalDate.of(2023,7,4),"http://portfolio.test/Certifications/power%20bi%20.png","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis voluptatem voluptatibus, adipisci nobis mollitia dolores."));
+                certificationRepository.save(new Certification(null,"Data Scientist with Python","Datacamp", LocalDate.of(2022,5,8),"http://portfolio.test/Certifications/data%20scientist%20with%20python.png","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis voluptatem voluptatibus, adipisci nobis mollitia dolores."));
+                certificationRepository.save(new Certification(null,"EF SET C1 Advanced English Level","EF SET", LocalDate.of(2023,2,22),"http://portfolio.test/Certifications/english%20C1%20advanced.png","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis voluptatem voluptatibus, adipisci nobis mollitia dolores."));
+                certificationRepository.save(new Certification(null,"Hult Prize Regional Finalist","Hult Prize", LocalDate.of(2021,4,27),"http://portfolio.test/Certifications/hult%20prize.png","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis voluptatem voluptatibus, adipisci nobis mollitia dolores."));
+
             }
         }
 

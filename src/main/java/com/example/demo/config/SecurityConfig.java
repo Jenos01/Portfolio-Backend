@@ -44,7 +44,6 @@ public class SecurityConfig {
 /// // Constructor injection
 //private final DataSource dataSource;
 //
-//
 //    public SecurityConfig(DataSource dataSource) {
 //        this.dataSource = dataSource;
 //    }
@@ -74,7 +73,8 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
                                 "/certification",
                                 "/users/register",
                                 "/users/login",
-                                "/project/**"
+                                "/project/**",
+                                "/certification/**"
                                // "/project/slug/**"
                         ).permitAll()  // allow GET from  Angular and login and register
                         .anyRequest().authenticated())
