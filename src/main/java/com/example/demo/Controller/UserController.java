@@ -16,7 +16,7 @@ import java.util.List;
 
 //@CrossOrigin("*")
 @RestController
-@RequestMapping("users")
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -29,7 +29,7 @@ public class UserController {
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
+    @GetMapping("users")
     public List<Users> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -49,6 +49,9 @@ public class UserController {
 //    }
 
 @PostMapping("/login") //signin
+///  Login should take a dedicated LoginRequest DTO, not the full Users entity
+///  @RequestBody LoginRequest not @RequestBody Users user
+/// see claude in jenosmoji account channel cgat SpringSecurity / auth endpoint structure (ctrl+f cleaner version)
 public ResponseEntity<LoginResponse> login(@RequestBody Users user) {
     try{
          LoginResponse response = new LoginResponse();

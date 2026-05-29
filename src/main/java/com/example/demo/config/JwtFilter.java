@@ -37,7 +37,27 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+//        if (request.getServletPath().startsWith("/auth")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//        System.out.println("JWT FILTER HIT: " + request.getServletPath());
+        //System.out.println("Auth header: " + authHeader);
+
+            String authHeader = request.getHeader("Authorization");
+            //***************
+        /// Temporaire
+       // String authHeader = request.getHeader("Authorization");
+        System.out.println("=== JWT FILTER ===");
+        System.out.println("Path: " + request.getServletPath());
+        System.out.println("Auth Header: " + authHeader);
+       // System.out.println("Username extracted: " + username);
+        System.out.println("SecurityContext auth: " + SecurityContextHolder.getContext().getAuthentication());
+
+
+
+
+            //****************
         String token = null;
         String username = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -67,7 +87,13 @@ public class JwtFilter extends OncePerRequestFilter {
 //                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 //                authtoken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 //                SecurityContextHolder.getContext().setAuthentication(authtoken);
-//
+
+
+                //***trying to found out why comment are not posted*****/
+//                System.out.println("UserDetails username: " + userDetails.getUsername());
+//                System.out.println("Token username: " + jwtService.extractUserName(token));
+//                System.out.println("Is expired: " + jwtService.validateToken(token, userDetails));
+                //******************************************************/
 //            }
 //        }
 //        filterChain.doFilter(request, response);
@@ -85,8 +111,12 @@ public class JwtFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            }else {
+                System.out.println("TOKEN VALIDATION FAILED");
             }
         }
         filterChain.doFilter(request, response);
+
+
     }
 }

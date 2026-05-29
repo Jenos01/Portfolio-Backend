@@ -32,6 +32,12 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
+    //may add another field for the signed users wich is about who are they students,
+    // recruters or experienced developpers, and the entry will be get from the field
+    // in signup form which is ticket class and with it i can add another visual in power bi
+    // which show me (could be a bar chart) wich will give me 3 bars each represent they class
+    // of the user
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

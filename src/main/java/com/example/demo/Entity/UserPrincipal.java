@@ -57,5 +57,9 @@ public class UserPrincipal implements UserDetails {
         //return UserDetails.super.isEnabled();
         return true;
     }
+
+    public Long getId() {
+        return user.getId();
+    }
 }
 

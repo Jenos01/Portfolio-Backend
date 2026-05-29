@@ -97,7 +97,7 @@ public class FirstTimeInit implements CommandLineRunner {
                 projectSkill1.setProject(project1);
                 projectSkill5.setProject(project1);
                 projectSkill7.setProject(project1);
-                projectRepository.save(project1);
+                projectRepository.save(project1);   
 
                 ///
                 project2 = new Project(null, "Portfolio", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis eos ipsa assumenda", "github.com/portfolio","http://portfolio.test/projects/dash.jpg", new ArrayList<>(List.of(projectSkill12,projectSkill4,projectSkill52,projectSkill72)));

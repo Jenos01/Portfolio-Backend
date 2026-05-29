@@ -60,24 +60,41 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) //used to be .csrf(csrf -> csrf.disable())
                 // //* .cors(cors -> {})   // enable CORS, use config in WebMvcConfigurer
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/project",
-                                "/skills",
-                                "/certification",
-                                "/users/register",
-                                "/users/login",
-                                "/project/**",
-                                "/certification/**"
-                               // "/project/slug/**"
-                        ).permitAll()  // allow GET from  Angular and login and register
-                        .anyRequest().authenticated())
+//                        .requestMatchers(
+//                                "/project",
+//                                "/skills",
+//                                "/certification",
+//                                "/users/register",
+//                                "/users/login",
+//                                "/project/**",
+//                                "/certification/**",
+//                               "/comment/"
+//                               // "/project/slug/**"
+//                        ).permitAll()  // allow GET from  Angular and login and register
+//                        .anyRequest().authenticated())
+                                .requestMatchers(
+//                                        "/users/register",
+//                                        "/users/login",
+                                        "/auth/**",
+                                        "/project/**",
+                                        "/skills/**",
+                                        "/certification/**"
+                                ).permitAll()
+
+//                                .requestMatchers(
+//                                        "/comment/**",
+//                                        "/rating/**"
+//                                ).authenticated()
+
+                                .anyRequest().authenticated()
+                )
                        // .httpBasic(Customizer.withDefaults())
                         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
        // .build();
