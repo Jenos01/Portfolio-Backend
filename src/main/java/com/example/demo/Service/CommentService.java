@@ -5,8 +5,12 @@ import com.example.demo.Repository.CommentRepository;
 import com.example.demo.Repository.ProjectRepository;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.dto.CommentRequest;
+import com.example.demo.dto.CommentResponse;
+import com.example.demo.dto.ProjectDto;
+import com.example.demo.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Comments;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +24,7 @@ public class CommentService {
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
 
-    public Comment addComment(CommentRequest commentRequest, Authentication authentication) {
+    public CommentResponse addComment(CommentRequest commentRequest, Authentication authentication) {
 
        // UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         // Users author = userRepository.findById(principal.getId()).orElseThrow();
@@ -35,7 +39,22 @@ public class CommentService {
         comment.setUser(author);
         comment.setProject(project);
 
-        return commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
+
+        return new CommentResponse(
+                savedComment.getComment(),
+               // savedComment.getId(),
+                savedComment.getCreatedAt(),
+                savedComment.getModifiedAt(),
+                new UserDto(
+                       // author.getId(),
+                        author.getUsername()
+                        ),
+                new ProjectDto(
+                        project.getId(),
+                        project.getName()
+                )
+        );
     }
 
     public Comment modifyComment(Comment comment) {
@@ -43,7 +62,12 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+//    public List<Comment> getAllComments() {
+//        return commentRepository.findAll();
+//    }
+
+    public List<Comment> getProjectComments(String slug) {
+//        Project project = projectRepository.findById(projectId);
+        return commentRepository.findAllByProject_Slug(slug);
     }
 }
