@@ -51,7 +51,7 @@ public class UserController {
 @PostMapping("/login") //signin
 ///  Login should take a dedicated LoginRequest DTO, not the full Users entity
 ///  @RequestBody LoginRequest not @RequestBody Users user
-/// see claude in jenosmoji account channel cgat SpringSecurity / auth endpoint structure (ctrl+f cleaner version)
+/// but if change it i'll need to do some changes starting by the verify function
 public ResponseEntity<LoginResponse> login(@RequestBody Users user) {
     try{
          LoginResponse response = new LoginResponse();
