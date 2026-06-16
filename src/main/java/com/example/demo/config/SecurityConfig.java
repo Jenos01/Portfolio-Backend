@@ -89,7 +89,9 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
                                         "/comment/project/**",
                                         "/rate/count/**",
                                         "/rate/average/**",
-                                        "/contact"
+                                        "/contact",
+                                        "/auth/forgot-password",
+                                        "/auth/reset-password"
                                 ).permitAll()
 
 //                                .requestMatchers(
