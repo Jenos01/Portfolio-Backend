@@ -26,8 +26,13 @@ public class JWTService {
 
     //private String secretKey = "";
 
-    @Value("${jwt.expiration}")
-    private long jwtExpiration;
+//    @Value("${jwt.expiration}")
+//    private long jwtExpiration;
+    @Value("${jwt.access-expiration}")
+    private long accessExpiration;
+
+    @Value("${jwt.refresh-expiration}")
+    private long refreshExpiration;
 
     public JWTService() throws NoSuchAlgorithmException {
         //improvments(trying) ///why ? 5tr aala 9oddem fi kol marra tsir restart lel app mathaln bech yetgenera secret key jdid donc l existing tokens bch ywalliw invalid ( i think)
@@ -37,7 +42,7 @@ public class JWTService {
     }
 
     //public String generateToken(String username) {
-    public String generateToken(UserDetails userDetails) { //*
+    public String buildToken(UserDetails userDetails, long expiration) { //*
 
         Map<String, Object> claims = new HashMap<>();
         //*
@@ -52,11 +57,26 @@ public class JWTService {
                // .subject(username)
                 .subject(userDetails.getUsername()) //*
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtExpiration)) //*
+                .expiration(new Date(System.currentTimeMillis() + expiration)) //*
                 .and()
                 .signWith(getKey())
                 .compact();
     }
+
+    public String generateAccessToken(UserDetails userDetails) {
+        return buildToken(
+                userDetails,
+                accessExpiration
+        );
+    }
+
+    public String generateRefreshToken(UserDetails userDetails) {
+        return buildToken(
+                userDetails,
+                refreshExpiration
+        );
+    }
+
 
     private SecretKey getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);

@@ -88,7 +88,8 @@ private final DataSource dataSource; //and i add @RequiredArgsConstructor   (Emb
                                         "/certification/**",
                                         "/comment/project/**",
                                         "/rate/count/**",
-                                        "/rate/average/**"
+                                        "/rate/average/**",
+                                        "/contact"
                                 ).permitAll()
 
 //                                .requestMatchers(

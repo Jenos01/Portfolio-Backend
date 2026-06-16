@@ -3,6 +3,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.Users;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.dto.LoginResponse;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -72,29 +73,73 @@ public class UserService {
 //    }
 
     //*
-    public String verify(Users user) {
-
-        Authentication authentication =
-                authnManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                user.getUsername(), user.getPassword()
-                        )
-                );
-
-
-        /// this one is  commeneted and changed to the one below bcz If authentication fails, authnManager.authenticate() will throw an exception automatically so i dont need to handle it here and i made some changes about that in the controller (try catch block) and in the LoginResponse
-//        if (authentication.isAuthenticated()) {
-//            UserDetails userDetails =
-//                    userDetailsService.loadUserByUsername(user.getUsername());
+//    public String verify(Users user) {
 //
-//            return jwtService.generateToken(userDetails);
-//        }
+//        Authentication authentication =
+//                authnManager.authenticate(
+//                        new UsernamePasswordAuthenticationToken(
+//                                user.getUsername(), user.getPassword()
+//                        )
+//                );
 //
-//        return "Fail"; ///need to be handled
+//
+//        /// this one is  commeneted and changed to the one below bcz If authentication fails, authnManager.authenticate() will throw an exception automatically so i dont need to handle it here and i made some changes about that in the controller (try catch block) and in the LoginResponse
+////        if (authentication.isAuthenticated()) {
+////            UserDetails userDetails =
+////                    userDetailsService.loadUserByUsername(user.getUsername());
+////
+////            return jwtService.generateToken(userDetails);
+////        }
+////
+////        return "Fail"; ///need to be handled
+////    }
+//        UserDetails userDetails =
+//                userDetailsService.loadUserByUsername(user.getUsername());
+//
+//        return jwtService.generateToken(userDetails);
 //    }
-        UserDetails userDetails =
-                userDetailsService.loadUserByUsername(user.getUsername());
+public LoginResponse verify(Users user) {
 
-        return jwtService.generateToken(userDetails);
+    Authentication authentication =
+            authnManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(), user.getPassword()
+                    )
+            );
+
+
+    UserDetails userDetails =
+            (UserDetails) authentication.getPrincipal();
+
+    LoginResponse response = new LoginResponse();
+
+    response.setAccessToken(jwtService.generateAccessToken(userDetails));
+    response.setRefreshToken(jwtService.generateRefreshToken(userDetails));
+
+///   loadUserByUsername is removed bcz Spring already loaded the user during authentication.
+//    UserDetails userDetails =
+//            userDetailsService.loadUserByUsername(user.getUsername());
+
+    //return jwtService.buildToken(userDetails);
+    return response;
+}
+
+    public LoginResponse refreshToken(String refreshToken) {
+
+        String username = jwtService.extractUserName(refreshToken);
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        if (!jwtService.validateToken(refreshToken, userDetails)) {
+            throw new RuntimeException("Invalid refresh token");
+        }
+
+        LoginResponse response = new LoginResponse();
+
+        response.setAccessToken(jwtService.generateAccessToken(userDetails));
+
+        response.setRefreshToken(refreshToken);
+
+        return response;
     }
 }
